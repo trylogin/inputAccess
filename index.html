@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Задать вопрос</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Roboto;
+            letter-spacing: 0.2px;
+        }
+
+        p {
+            margin: 0;
+            font-weight: 700;
+            font-size: 24px;
+            line-height: 20px;
+        }
+
+        .main_block {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .page_block {
+            width: 401px;
+            height: 312px;
+            padding: 40px;
+
+            background: #F7F5F9;
+            border-radius: 12px;
+            box-shadow: 5px 5px 15px 0px #00000040;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        .btn_submit {
+            height: 48px;
+            width: 401px;
+            border-radius: 6px;
+            background: #6979F8;
+            border-radius: 6px;
+        }
+
+        input {
+            background: #FFFFFF;
+            box-shadow: 0px 7px 64px rgba(0, 0, 0, 0.07);
+            border-radius: 6px;
+            border: 1px solid #FFFFFF;
+            padding: 13px 14px;
+            margin-top: 27.3px;
+            font-size: 15px;
+        }
+
+        input:focus-visible {
+            outline: none;
+            border: 1px solid #854FC8;
+        }
+
+        input:hover {
+            border: 1px solid #854FC8;
+        }
+
+        input:last-child {
+            background: #6979F8;
+            color: #FFFFFF;
+            border: 1px solid #6979F8;
+            font-size: 17px;
+            letter-spacing: -0.4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main_block">
+        <form id="form" action="#">
+            <div class="page_block">
+                <p>Задать вопрос</p>
+                <input type="text" name="name" placeholder="Фамилия Имя Отчество *" pattern="^[А-Яа-яЁё\-\s]+$"
+                    required>
+                <input type="text" name="phone" placeholder="Телефон *"
+                    pattern="\+7\s?[\(]{0,1}9[0-9]{2}[\)]{0,1}\s?\d{3}[-]{0,1}\d{2}[-]{0,1}\d{2}" required>
+                <input type="text" name="email" placeholder="Email"
+                    pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+$">
+                <input type="submit" id="main_button" value="ОТПРАВИТЬ ЗАПРОС">
+            </div>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $("#form").on("submit", function () {
+            function showErrorMessage(data) {
+                alert(data.responseText + ' (' + data.status + ')');
+            }
+
+            $.ajax({
+                url: 'https://60376bfd5435040017722533.mockapi.io/form',
+                method: 'post',
+                dataType: 'html',
+                data: $(this).serialize(),
+                success: function (data) {
+                    if (data.status === 201) {
+                        alert('success');
+                    }
+                    else {
+                        showErrorMessage(data);
+                    }
+                },
+                error: function (data) {
+                    showErrorMessage(data);
+                }
+            });
+
+            return false;
+        });
+    </script>
+</body>
+
+</html>
